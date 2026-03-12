@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - NeuroScan AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --primary-light: #7b9fd3;
+            --primary-dark: #2c4979;
+            --secondary-color: #5cbdb9;
+            --light-accent: #e6f7f6;
+            --dark-color: #2c3e50;
+            --light-color: #f8f9fa;
+            --text-color: #333;
+            --text-light: #6c757d;
+            --white: #ffffff;
+            --gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            --gradient-light: linear-gradient(135deg, rgba(74, 111, 165, 0.1), rgba(92, 189, 185, 0.1));
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --border-radius: 16px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--gradient-light);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-color);
+            padding: 2rem;
+        }
+
+        .container {
+            background: var(--white);
+            padding: 3rem 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            width: 850px;
+            max-width: 95%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            width: 50%;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        .subtitle {
+            text-align: center;
+            margin: 1.5rem auto 2.5rem;
+            font-size: 1.05rem;
+            color: var(--text-light);
+            max-width: 680px;
+            line-height: 1.7;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .feature-card {
+            background: var(--light-accent);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            border-left: 5px solid var(--primary-color);
+            transition: var(--transition);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 24px rgba(74, 111, 165, 0.15);
+        }
+
+        .feature-card h3 {
+            color: var(--primary-dark);
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .feature-card h3::before {
+            content: '✓';
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 50%;
+            font-size: 13px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .feature-card p {
+            font-size: 0.93rem;
+            line-height: 1.6;
+            color: var(--text-light);
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.9rem 2rem;
+            background: var(--gradient);
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(74, 111, 165, 0.3);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-back:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(74, 111, 165, 0.4);
+        }
+
+        .btn-center {
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 2rem 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.7rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem;
+            }
+
+            .container {
+                padding: 1.5rem 1.2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>About NeuroScan AI</h2>
+
+        <p class="subtitle">Our advanced AI-powered system helps medical professionals detect and classify brain tumors with high accuracy from MRI scans, enabling early intervention and better patient outcomes.</p>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>Early Detection</h3>
+                <p>Our system uses deep learning models to detect brain tumors in early stages from MRI scans, helping to save lives through timely diagnosis.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Tumor Classification</h3>
+                <p>The system classifies tumor types including glioma, meningioma, and pituitary tumors, aiding doctors in choosing the right treatment approach.</p>
+            </div>
+            <div class="feature-card">
+                <h3>MRI Image Analysis</h3>
+                <p>Convolutional Neural Network (CNN) models are used to analyze MRI scan images for accurate identification of abnormal brain tissues.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Rapid Results</h3>
+                <p>Get AI-powered analysis results within seconds, enabling faster clinical decision-making without lengthy waiting times.</p>
+            </div>
+            <div class="feature-card">
+                <h3>High Accuracy</h3>
+                <p>Our models are trained on thousands of MRI scans to ensure reliable predictions with minimal false positives and negatives.</p>
+            </div>
+            <div class="feature-card">
+                <h3>User-Friendly Interface</h3>
+                <p>Designed with healthcare professionals in mind, our interface is intuitive, responsive, and easy to navigate on any device.</p>
+            </div>
+        </div>
+
+        <div class="btn-center">
+            <a href="{{ url_for('index') }}" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </div>
+</body>
+</html>

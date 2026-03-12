@@ -1,0 +1,9 @@
+flask==3.1.2
+gunicorn==21.2.0
+werkzeug==3.1.5
+torch==2.10.0
+torchvision==0.25.0
+pennylane==0.42.3
+pennylane-lightning==0.42.0
+numpy==2.2.6
+pillow==12.1.0

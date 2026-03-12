@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis History - NeuroScan AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --primary-light: #7b9fd3;
+            --primary-dark: #2c4979;
+            --secondary-color: #5cbdb9;
+            --light-accent: #e6f7f6;
+            --dark-color: #2c3e50;
+            --light-color: #f8f9fa;
+            --text-color: #333;
+            --text-light: #6c757d;
+            --white: #ffffff;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --error: #f44336;
+            --gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            --gradient-light: linear-gradient(135deg, rgba(74, 111, 165, 0.1), rgba(92, 189, 185, 0.1));
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --border-radius: 16px;
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--gradient-light);
+            min-height: 100vh;
+            padding: 2rem;
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .page-header {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 5px;
+            background: var(--gradient);
+        }
+
+        .page-header-left h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .page-header-left h1 i {
+            color: var(--primary-color);
+        }
+
+        .page-header-left p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(74, 111, 165, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 111, 165, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        /* Stats Row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.2rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border-top: 4px solid transparent;
+        }
+
+        .stat-card.glioma { border-top-color: #f44336; }
+        .stat-card.meningioma { border-top-color: #ff9800; }
+        .stat-card.notumor { border-top-color: #4caf50; }
+        .stat-card.pituitary { border-top-color: #9c27b0; }
+
+        .stat-card .stat-number {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark-color);
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 0.2rem;
+            text-transform: capitalize;
+        }
+
+        /* History Table */
+        .history-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .history-card-header {
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .history-card-header h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .total-badge {
+            background: var(--gradient);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--gradient-light);
+        }
+
+        thead th {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #f0f0f0;
+            transition: var(--transition);
+        }
+
+        tbody tr:hover {
+            background: var(--gradient-light);
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        tbody td {
+            padding: 1rem 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        .scan-thumb {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 2px solid #e9ecef;
+        }
+
+        .prediction-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.35rem 0.9rem;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .badge-glioma {
+            background: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+
+        .badge-meningioma {
+            background: rgba(255, 152, 0, 0.1);
+            color: #ff9800;
+            border: 1px solid rgba(255, 152, 0, 0.3);
+        }
+
+        .badge-notumor {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4caf50;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .badge-pituitary {
+            background: rgba(156, 39, 176, 0.1);
+            color: #9c27b0;
+            border: 1px solid rgba(156, 39, 176, 0.3);
+        }
+
+        .date-text {
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        .filename-text {
+            color: var(--text-color);
+            font-size: 0.85rem;
+            max-width: 180px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-light);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--primary-light);
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+
+            .page-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .page-header-left h1 { justify-content: center; }
+
+            thead th:nth-child(1),
+            tbody td:nth-child(1) { display: none; }
+
+            .filename-text { max-width: 100px; }
+        }
+
+        @media (max-width: 480px) {
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            thead th:nth-child(4),
+            tbody td:nth-child(4) { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- Header -->
+        <div class="page-header">
+            <div class="page-header-left">
+                <h1><i class="fas fa-history"></i> Analysis History</h1>
+                <p>Welcome, {{ session['user']['name'] }} &nbsp;|&nbsp; {{ session['user']['email'] }}</p>
+            </div>
+            <div class="header-actions">
+                <a href="{{ url_for('predict') }}" class="btn btn-primary">
+                    <i class="fas fa-brain"></i> New Analysis
+                </a>
+                <a href="{{ url_for('index') }}" class="btn btn-outline">
+                    <i class="fas fa-home"></i> Home
+                </a>
+            </div>
+        </div>
+
+        {% if records %}
+
+        <!-- Stats Row -->
+        <div class="stats-row">
+            <div class="stat-card glioma">
+                <div class="stat-number">{{ records | selectattr('prediction', 'equalto', 'glioma') | list | length }}</div>
+                <div class="stat-label">🔴 Glioma</div>
+            </div>
+            <div class="stat-card meningioma">
+                <div class="stat-number">{{ records | selectattr('prediction', 'equalto', 'meningioma') | list | length }}</div>
+                <div class="stat-label">🟠 Meningioma</div>
+            </div>
+            <div class="stat-card notumor">
+                <div class="stat-number">{{ records | selectattr('prediction', 'equalto', 'notumor') | list | length }}</div>
+                <div class="stat-label">🟢 No Tumor</div>
+            </div>
+            <div class="stat-card pituitary">
+                <div class="stat-number">{{ records | selectattr('prediction', 'equalto', 'pituitary') | list | length }}</div>
+                <div class="stat-label">🟣 Pituitary</div>
+            </div>
+        </div>
+
+        <!-- History Table -->
+        <div class="history-card">
+            <div class="history-card-header">
+                <h3><i class="fas fa-table"></i> All Scans</h3>
+                <span class="total-badge">{{ records | length }} Total</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Image</th>
+                        <th>Filename</th>
+                        <th>Prediction</th>
+                        <th>Date & Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in records %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>
+                            <img src="{{ url_for('static', filename='uploads/' + record['filename']) }}"
+                                 alt="scan" class="scan-thumb"
+                                 onerror="this.src='https://via.placeholder.com/50x50?text=MRI'">
+                        </td>
+                        <td>
+                            <span class="filename-text" title="{{ record['filename'] }}">
+                                {{ record['filename'] }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="prediction-badge badge-{{ record['prediction'] }}">
+                                {% if record['prediction'] == 'glioma' %}🔴
+                                {% elif record['prediction'] == 'meningioma' %}🟠
+                                {% elif record['prediction'] == 'notumor' %}🟢
+                                {% elif record['prediction'] == 'pituitary' %}🟣
+                                {% endif %}
+                                {{ record['prediction'] | capitalize }}
+                            </span>
+                        </td>
+                        <td class="date-text">
+                            <i class="fas fa-clock" style="margin-right:4px; color: var(--primary-light);"></i>
+                            {{ record['analyzed_at'] }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% else %}
+
+        <!-- Empty State -->
+        <div class="history-card">
+            <div class="empty-state">
+                <i class="fas fa-brain"></i>
+                <h3>No Scans Yet</h3>
+                <p>You haven't analyzed any MRI scans yet. Upload your first scan to get started!</p>
+                <a href="{{ url_for('predict') }}" class="btn btn-primary">
+                    <i class="fas fa-upload"></i> Upload MRI Scan
+                </a>
+            </div>
+        </div>
+
+        {% endif %}
+
+    </div>
+</body>
+</html>

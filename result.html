@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction Result</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --primary-light: #7b9fd3;
+            --primary-dark: #2c4979;
+            --secondary-color: #5cbdb9;
+            --accent-color: #ff7e5f;
+            --light-accent: #e6f7f6;
+            --dark-color: #2c3e50;
+            --light-color: #f8f9fa;
+            --text-color: #333;
+            --text-light: #6c757d;
+            --white: #ffffff;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --error: #f44336;
+            --gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            --gradient-dark: linear-gradient(135deg, var(--primary-dark), var(--secondary-color));
+            --gradient-light: linear-gradient(135deg, rgba(74, 111, 165, 0.1), rgba(92, 189, 185, 0.1));
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.15);
+            --border-radius: 16px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--gradient-light);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--dark-color);
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .result-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--white);
+        }
+
+        .result-icon.success {
+            background: var(--success);
+        }
+
+        .result-icon.warning {
+            background: var(--warning);
+        }
+
+        .result-icon.error {
+            background: var(--error);
+        }
+
+        .image-container {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--light-accent);
+            border-radius: var(--border-radius);
+            display: inline-block;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 3px solid var(--white);
+        }
+
+        .prediction-result {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            background: var(--light-accent);
+        }
+
+        .prediction-result h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+
+        .prediction-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            display: inline-block;
+            margin: 0.5rem 0;
+        }
+
+        .prediction-text.positive {
+            background: rgba(244, 67, 54, 0.1);
+            color: var(--error);
+            border: 2px solid var(--error);
+        }
+
+        .prediction-text.negative {
+            background: rgba(76, 175, 80, 0.1);
+            color: var(--success);
+            border: 2px solid var(--success);
+        }
+
+        .confidence {
+            margin-top: 1.5rem;
+        }
+
+        .confidence-bar {
+            height: 12px;
+            background: #e9ecef;
+            border-radius: 10px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            border-radius: 10px;
+            background: var(--gradient);
+            transition: width 1.5s ease-in-out;
+        }
+
+        .confidence-text {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .recommendation {
+            background: var(--white);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            margin: 2rem 0;
+            text-align: left;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .recommendation h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .recommendation p {
+            color: var(--text-light);
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(74, 111, 165, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(74, 111, 165, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-light {
+            background: var(--light-accent);
+            color: var(--dark-color);
+        }
+
+        .btn-light:hover {
+            background: var(--primary-light);
+            color: var(--white);
+        }
+
+        .additional-info {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .info-card {
+            background: var(--light-accent);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+        }
+
+        .info-card i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .info-card h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .info-card p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .container {
+                padding: 1.5rem;
+            }
+            
+            h2 {
+                font-size: 1.6rem;
+            }
+            
+            .prediction-text {
+                font-size: 1.4rem;
+            }
+            
+            .result-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container fade-in">
+        <div class="result-header">
+            <div class="result-icon {% if 'No Tumor' in prediction %}success{% else %}warning{% endif %}">
+                <i class="fas fa-{% if 'No Tumor' in prediction %}check-circle{% else %}exclamation-triangle{% endif %}"></i>
+            </div>
+            <h2>Analysis Complete</h2>
+        </div>
+
+        <div class="image-container">
+            <img src="{{ url_for('static', filename='uploads/' + filename) }}" alt="Uploaded MRI Scan">
+        </div>
+
+        <div class="prediction-result">
+            <h3>AI Prediction:</h3>
+            <div class="prediction-text {% if 'No Tumor' in prediction %}negative{% else %}positive{% endif %}">
+                {{ prediction }}
+            </div>
+
+            <div class="confidence">
+                <p class="confidence-text">Model Confidence</p>
+                <div class="confidence-bar">
+                    <div class="confidence-fill" style="width: 0%"></div>
+                </div>
+                <p class="confidence-text">92%</p>
+            </div>
+        </div>
+
+        <div class="recommendation">
+            <h4><i class="fas fa-stethoscope"></i> Medical Recommendation</h4>
+            <p>
+                {% if 'No Tumor' in prediction %}
+                No signs of tumor detected in the MRI scan. Continue with regular check-ups as recommended by your healthcare provider.
+                {% else %}
+                Potential abnormality detected. Please consult with a neurologist or oncologist for further evaluation and clinical correlation.
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="action-buttons">
+            <a href="{{ url_for('predict') }}" class="btn btn-primary">
+                <i class="fas fa-redo"></i> Analyze Another Image
+            </a>
+            <a href="{{ url_for('index') }}" class="btn btn-outline">
+                <i class="fas fa-home"></i> Back to Home
+            </a>
+            
+        </div>
+
+        <div class="additional-info">
+            <h3>Important Information</h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <i class="fas fa-user-md"></i>
+                    <h4>Consult Specialist</h4>
+                    <p>Always discuss results with a qualified medical professional</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-clipboard-check"></i>
+                    <h4>Clinical Correlation</h4>
+                    <p>AI analysis should be correlated with clinical findings</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-history"></i>
+                    <h4>Follow-up</h4>
+                    <p>Regular monitoring may be recommended by your doctor</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Animate confidence bar on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const confidenceFill = document.querySelector('.confidence-fill');
+            confidenceFill.style.width = '0%';
+            
+            setTimeout(() => {
+                confidenceFill.style.width = '92%';
+            }, 500);
+        });
+    </script>
+</body>
+</html>
